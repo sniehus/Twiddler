@@ -2,8 +2,9 @@
 $(document).ready(() => {
 
   const $body = $('body').attr('id', 'main');
-  $body.html('Tweeds:').css('weight', 'bold');
+  $body.html('Tweeds:\n').css('weight', 'bold');
   $body.css('background-color', 'grey');
+  
 
   /*
   $('<section>')
@@ -26,10 +27,10 @@ $(document).ready(() => {
     .css('padding', '6x')
     .css('background-color', 'white')
     .css('border-radius', '10px')
-    .prependTo('#main');
+    .prependTo($('#main'));
 
 
-  const $nextHeader = $('<h3>').text('Whatcha Thinking?').attr('id', 'next');
+  const $nextHeader = $('<h3>').text('????').attr('id', 'next');
   $nextHeader
     .css('color', 'rgb(0,38,230')
     .css('font-size', '26px')
@@ -37,48 +38,31 @@ $(document).ready(() => {
     .css('padding', '6x')
     .css('background-color', 'grey')
     .css('border-radius', '10px')
-    .appendTo('#head');
+    .appendTo($('#head'));
+
+  
+
+  window.visitor = 'bob';
+  var $x = $('#input_contents').val();
 
 
   const $box = $('<button>').text('share').attr('id', 'button')
     .css('color', 'rgb(255,128,213)')
     .css('font-size', '20px')
-    .appendTo('#next');
+    .css('position', 'relative')
+    //.onClick(writeTweet($x))
+    .appendTo($('#next'));
 
-
-  $(function () {
-    $('#button').bind('click', function () {
-      var div = $('<div />');
-      div.html(GenerateTextbox(' '));
-      $('#TextBoxContainer').append(div);
-    });
-    $('#button').bind('click', function () {
-      var values = ' ';
-      $('input[name=CreateTextbox]').each(function () {
-        values += $(this).val() + '\n';
-      });
-      alert(values);
-    });
-    $('body').on('click', '.remove', function () {
-      $(this).closest('div').remove();
-    });
-  });
-  function GenerateTextbox(value) {
-    return '<input name = "CreateTextbox" type= "text" value = " " + value + " " />' +
-      '<input type="button" value="Remove" class="remove" />'
-  };
-
+  const $typeBox = $('<input>').text('hello').attr('id', 'input_contents')
+    .prependTo($('#button'))
+    .css('color', 'black');
+  
   /*
-  color: rgb(255, 255, 255); font-size: 16px; line-height: 16px; 
-  padding: 6px; border-radius: 10px; font-family: Georgia, serif; 
-  font-weight: normal; text-decoration: none; font-style: normal; 
-  font-variant: normal; text-transform: none; background-image: 
-  linear-gradient(to right, rgb(28, 110, 164) 0%, rgb(35, 136, 203) 50%, rgb(20, 78, 117) 100%); box-shadow: rgb(0, 0, 0) 5px 5px 15px 5px; 
-  border: 2px solid rgb(28, 110, 164); display: inline-block;}
+  $tweetsList = $('<ul>').attr('class', 'tweets');
+
+  $tweetList = $('<li>').attr('class', 'tweet');
+  $tweetsList.append($tweetList).appendTo('$body');
   */
-
-
-
 
 
 
@@ -119,19 +103,64 @@ $(document).ready(() => {
   //6.Allow the user to tweet. (This is going to require you to understand a little more about data_generator.js, 
   //but you shouldn’t need to modify anything in that file.)
 
+  //Add bootstrap
+  //Allow the user to click on their own username to see their own timeline.
+  //Allow the user to click on a hashtag to see all the tweets with that hashtag in it.
 
   const $tweets = streams.home.map((tweet) => {
     const $tweet = $('<div></div>');
-    const text = `@${tweet.user}: ${tweet.message}, Twiddled at ${tweet.created_at}`;
+    const user = tweet.user; 
+    const twt = tweet.message;
+    $(user).attr('id', 'tweeter');
+    $('#tweeter').css('color', 'red');
 
+    $body.append('@' + user + '   ');
+    $body.append(twt);
+
+    
+    //$user.css('color', 'red');
+    //const message = tweet.message;
+    
+    //$tweet.css('color', 'rgb(255,255,77)');
+    
+    /*
+    const timeSince = function calculate() {
+      let start = Date.now();
+      for (let count = 0; count < 100000; count++) {
+        dice = Math.ceil(Math.random() * 6);
+      }
+      let elapsed = start - tweet.created_at;
+      return elapsed + ' ago';
+    };
+    const $message = `Twiddled at: ${tweet.created_at}  ${timeSince()}';
+    $message.css('color', 'black');
+    */
+    var timeSince = function() {
+      let x = (Date.now() - tweet.created_at) / 1000;
+      if (x < 60) {
+        return 'less than a minute ago'; 
+      }
+      if (x < 360) {
+        return `${Math.floor(360 / x)} hours ago`;
+      }
+      return `${Math.floor((360 * 24) / x)} days ago`;
+    };
+    
+    
+
+    $body.append(`, sent: ${tweet.created_at}, ${timeSince()}`);
+    
+    
+    
     $tweet.text(text);
+    //return;
 
-    return $tweet;
+    //return $tweet;
 
   });
-  $body.append($tweets);
+  //$body.append($tweets);
 
 });
-
+//Global user error/
 
 
