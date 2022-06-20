@@ -1,33 +1,31 @@
 
+
 $(document).ready(() => {
 
+
+  var feed = streams.home;
   const $body = $('body').attr('id', 'main');
-  $body.html('Tweeds:\n').css('weight', 'bold');
-  $body.css('background-color', 'grey');
-  
 
-  /*
-  $('<section>')
-    .attr('class', 'myButton')
-    .css('color', 'rgb(255, 255, 255')
-    .css('font-size', '16px')
-    .css('line-height', '16px')
-    .css('padding', '6x')
-    .css('border-radius', '10px')
-    .text('Tweed')
-    .appendTo('$body');
 
-*/
-
-  const $mainHeader = $('<h3>').text('Twiddler').attr('id', 'head');
-  $mainHeader
+  const $title = $('<h1>').text('Twiddler').attr('id', 'title');
+  $title
     .css('color', 'rgb(0,38,230')
+    .css('border', '10px groove')
     .css('font-size', '76px')
     .css('line-height', '76px')
     .css('padding', '6x')
     .css('background-color', 'white')
-    .css('border-radius', '10px')
-    .prependTo($('#main'));
+    .css('border-radius', '10px');
+  $body.append($title);
+
+
+
+
+  const $section = $('<section>').attr('id', 'tweets').css('color', 'green');
+  const $header = $('<h3>').text('Tweets');
+  $section.append($header);
+  $section.appendTo($('#main'));
+
 
 
   const $nextHeader = $('<h3>').text('????').attr('id', 'next');
@@ -38,129 +36,135 @@ $(document).ready(() => {
     .css('padding', '6x')
     .css('background-color', 'grey')
     .css('border-radius', '10px')
-    .appendTo($('#head'));
+    .appendTo($('#title'));
 
-  
-
+  /*
+  const users = [];
   window.visitor = 'bob';
   var $x = $('#input_contents').val();
+  */
+
+  //form to contain 2 text input fields
+  const $form = $('<form>').attr('id', 'form');
+  $($form).append('<input type="text" attr id="name" />').val('lkj');
+  $($form).append('<input type="text" attr id="message" />').val('');
 
 
-  const $box = $('<button>').text('share').attr('id', 'button')
+
+
+  $form.append($('<button>').text('share')).attr('id', 'button');
+  $form.appendTo($('#next'));
+
+  //create a function for the click of button
+  $('box').click(function () {
+    //set value of nameLabel to user name
+    //if left blank default to visitor
+    if (!visitor) {
+      window.visitor = 'visitor';
+    }
+    else {
+      window.visitor = `@+ ${('#name').val()}`;
+    }
+    //set the value of message to
+    message = ('#message').val;
+    //call tweet function
+    writeTweet();
+    return $(tweets);
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
+  const $show = $('<button>').text('show tweets').attr('id', 'show')
     .css('color', 'rgb(255,128,213)')
     .css('font-size', '20px')
     .css('position', 'relative')
-    //.onClick(writeTweet($x))
-    .appendTo($('#next'));
-
-  const $typeBox = $('<input>').text('hello').attr('id', 'input_contents')
-    .prependTo($('#button'))
-    .css('color', 'black');
-  
-  /*
-  $tweetsList = $('<ul>').attr('class', 'tweets');
-
-  $tweetList = $('<li>').attr('class', 'tweet');
-  $tweetsList.append($tweetList).appendTo('$body');
-  */
+    .appendTo($('#main'));
 
 
 
-  //1. Show the user new tweets somehow. (You can show them automatically as they’re created,
-  //or create a button that displays new tweets.)
-  /*
-  let newTweets = function newButtonClickListener() {
-    //alert('Hello World');
-  };
-  
-  var test = function test() {
-    var r = $('<input/>').attr({
-      type: 'button',
-      id: 'field',
-      value: 'New Button',
-      onclick: newTweets()
-    });
-
-    $body.append(r);
-  }();
-  $buttonTest = $('<button>').onClick(test()).append;
-
- */
-  //2.Display the timestamps of when the tweets were created. This timestamp should reflect the
-  //actual time the tweets were created, and should not just be hardcoded.
 
 
-  //3.Design your interface so that you want to look at and use the product you’re making.
-
-  //4.Allow the user to click on any username to see that user’s timeline.
-  //create a function/event handler? that iterates through all tweets an returns when input name matches
 
 
-  //5.Show when the tweets were created in a human-friendly way (eg “10 minutes ago”).
-  //You’ll want to use a library to do this work for you.
-  //A very popular library is called Moment.js
 
-  //6.Allow the user to tweet. (This is going to require you to understand a little more about data_generator.js, 
-  //but you shouldn’t need to modify anything in that file.)
 
-  //Add bootstrap
-  //Allow the user to click on their own username to see their own timeline.
-  //Allow the user to click on a hashtag to see all the tweets with that hashtag in it.
+
 
   const $tweets = streams.home.map((tweet) => {
     const $tweet = $('<div></div>');
-    const user = tweet.user; 
-    const twt = tweet.message;
-    $(user).attr('id', 'tweeter');
-    $('#tweeter').css('color', 'red');
+    const $user = $('<div>').attr('class', 'user');
+    $user.text('@' + tweet.user).css('color', 'red').attr('id', 'user');
+    const $message = $('<div>');
+    $message.text(tweet.message).css('color', 'black').attr('id', 'message');
 
-    $body.append('@' + user + '   ');
-    $body.append(twt);
 
-    
-    //$user.css('color', 'red');
-    //const message = tweet.message;
-    
-    //$tweet.css('color', 'rgb(255,255,77)');
-    
-    /*
-    const timeSince = function calculate() {
-      let start = Date.now();
-      for (let count = 0; count < 100000; count++) {
-        dice = Math.ceil(Math.random() * 6);
-      }
-      let elapsed = start - tweet.created_at;
-      return elapsed + ' ago';
-    };
-    const $message = `Twiddled at: ${tweet.created_at}  ${timeSince()}';
-    $message.css('color', 'black');
-    */
-    var timeSince = function() {
+
+
+
+
+    var timeSince = function () {
       let x = (Date.now() - tweet.created_at) / 1000;
       if (x < 60) {
-        return 'less than a minute ago'; 
+        return 'less than a minute ago';
       }
       if (x < 360) {
-        return `${Math.floor(360 / x)} hours ago`;
+        //return `${Math.floor(360 / x)} hours ago`;
+        return moment().startOf('hour').fromNow();
       }
       return `${Math.floor((360 * 24) / x)} days ago`;
     };
-    
-    
+    const sentTime = moment().format('MMMM Do YYYY, h:mm:ss a');
 
-    $body.append(`, sent: ${tweet.created_at}, ${timeSince()}`);
-    
-    
-    
-    $tweet.text(text);
-    //return;
+
+    const text = `@${$user} ${tweet.message}, sent: ${sentTime}, ${timeSince()}`;
+
+    $('#main').append($user);
+    $('#main').append($message);
+    $('#main').append(`sent: ${sentTime}, ${timeSince()}`);
+
+    //$tweet.text(text);
+
 
     //return $tweet;
 
   });
-  //$body.append($tweets);
 
 });
-//Global user error/
+//run the function every five seconds
+//setInterval(addTweet, 1000);
 
+
+//write a function to replace text stream with only tweets from the clicked name
+//$share.click(function() {
+//remove user/sent/time from body
+
+//append streams.users 
+//const $tweeter = streams.home.map(($tweet));
+//});
+
+
+//const text = `@${$user} ${tweet.message}, sent: ${sentTime}, ${timeSince()}`;
+
+
+
+
+
+
+/*
+  <div class="container">
+      <div class="col-sm-4">Col 1</div>.attr('id', 'col1');
+      <div class="col-sm-8">Col 2</div>.attr('id', 'col2');
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+*/
 

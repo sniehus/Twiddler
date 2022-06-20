@@ -21,7 +21,6 @@ const addTweet = (newTweet) => {
   streams.users[username].push(newTweet);
   streams.home.push(newTweet);
 };
-
 // Utility function
 const randomElement = (array) => {
   const randomIndex = Math.floor(Math.random() * array.length);
