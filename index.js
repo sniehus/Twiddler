@@ -38,23 +38,17 @@ $(document).ready(() => {
     .css('border-radius', '10px')
     .appendTo($('#title'));
 
-  /*
-  const users = [];
-  window.visitor = 'bob';
-  var $x = $('#input_contents').val();
-  */
+
 
   //form to contain 2 text input fields
   const $form = $('<form>').attr('id', 'form');
   $($form).append('<input type="text" attr id="name" />').val('lkj');
   $($form).append('<input type="text" attr id="message" />').val('');
-
-
-
-
   $form.append($('<button>').text('share')).attr('id', 'button');
   $form.appendTo($('#next'));
 
+  
+  //Which function call/use   how do i set the username?
   //create a function for the click of button
   $('box').click(function () {
     //set value of nameLabel to user name
@@ -68,49 +62,30 @@ $(document).ready(() => {
     //set the value of message to
     message = ('#message').val;
     //call tweet function
-    writeTweet();
+    writeTweet(message);
     return $(tweets);
   });
 
 
 
-
-
-
-
-
-
-
-
-
-
+  //?hide tweets??  add click function to this
   const $show = $('<button>').text('show tweets').attr('id', 'show')
     .css('color', 'rgb(255,128,213)')
     .css('font-size', '20px')
     .css('position', 'relative')
     .appendTo($('#main'));
 
+  //run each before this to only show tweets for a clicked user
+  //add a click function to users //change to var if not working
+  
 
-
-
-
-
-
-
-
-
-
-  const $tweets = streams.home.map((tweet) => {
+  $('box').click(function () {
+  const $tweets = (streams.home.map((tweet) => {
     const $tweet = $('<div></div>');
     const $user = $('<div>').attr('class', 'user');
     $user.text('@' + tweet.user).css('color', 'red').attr('id', 'user');
     const $message = $('<div>');
     $message.text(tweet.message).css('color', 'black').attr('id', 'message');
-
-
-
-
-
 
     var timeSince = function () {
       let x = (Date.now() - tweet.created_at) / 1000;
@@ -125,35 +100,30 @@ $(document).ready(() => {
     };
     const sentTime = moment().format('MMMM Do YYYY, h:mm:ss a');
 
-
-    const text = `@${$user} ${tweet.message}, sent: ${sentTime}, ${timeSince()}`;
+    //not using this?
+    //const text = `@${$user} ${tweet.message}, sent: ${sentTime}, ${timeSince()}`;
 
     $('#main').append($user);
     $('#main').append($message);
     $('#main').append(`sent: ${sentTime}, ${timeSince()}`);
 
+    //not using this?
     //$tweet.text(text);
-
-
     //return $tweet;
 
-  });
+  }));
 
 });
-//run the function every five seconds
-//setInterval(addTweet, 1000);
+
+  
+
+//run the function every five second
+//setInterterval(function, interval)
 
 
-//write a function to replace text stream with only tweets from the clicked name
-//$share.click(function() {
-//remove user/sent/time from body
-
-//append streams.users 
-//const $tweeter = streams.home.map(($tweet));
-//});
 
 
-//const text = `@${$user} ${tweet.message}, sent: ${sentTime}, ${timeSince()}`;
+
 
 
 
